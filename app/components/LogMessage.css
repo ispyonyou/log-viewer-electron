@@ -1,0 +1,75 @@
+.message_row_ul::after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+.message_row {
+  /* border: 1px dashed #999; */
+  padding: 5px;
+}
+
+.message_row_ul li {
+  float: left;
+  list-style: none;
+  margin-left: 10px;
+  font-size: 0.6em;
+  background-color: aqua;
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;  
+  border-radius: 2px;
+
+  /* border-radius: 0 10px 0 10px; */
+
+  /* border: 1px dashed #999; */
+  text-align: center;
+}
+
+.message_row_ul .time {
+  background-color: transparent;
+
+  /* text-decoration: underline; */
+}
+
+.message_row .log_level {
+  min-width: 60px;
+}
+
+.message_row .logger {
+  min-width: 120px;
+  background-color: #dbdbde;
+}
+
+.message_row_ul .INFO {
+  background-color: #d7f5ea;
+  color: #32cd9a;
+}
+
+.message_row_ul .TRACE {
+  background-color: #dbe7ff;
+  color: #598bfe;
+}
+
+.message_row_ul .ERROR {
+  background-color: rgba(199, 63, 21, 0.623);
+}
+
+.message_row_ul {
+  float: right;
+  margin: 0;
+  padding: 0;
+
+  /* border: 1px dashed #999; */
+}
+
+.message_row p{
+  margin: 0;	
+  padding: 0;
+  word-break: break-word;
+  min-height: 16px
+}
+
+.message_row:nth-child(odd) {
+  background-color: #f4f7fc;
+}

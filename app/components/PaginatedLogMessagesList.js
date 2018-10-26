@@ -43,7 +43,8 @@ class PaginatedLogMessagesList extends React.Component
           <LogMessagesList settings={settings}/>
         </div>
       )
-  }
+
+    }
 }
 
 export default connect((state) => {

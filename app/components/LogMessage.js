@@ -3,7 +3,14 @@ import Highlight from 'react-highlight'
 import sqlFormatter from 'sql-formatter'
 import {connect} from 'react-redux'
 
-import './Highlight.css'
+import styles from './LogMessage.css';
+
+import './Highlight.global.css'
+
+//import styles from './LogMessage.css';
+
+//import './LogMessage.css';
+
 
 class LogMessage extends React.Component
 {
@@ -11,11 +18,11 @@ class LogMessage extends React.Component
     const {lvl, lgr, tm} = this.props.logMessage;
 
     return (
-      <div className="message_row">
-        <ul className="message_row_ul">
-          <li className="time" key="time">{tm}</li>
-          <li className={"log_level "+lvl}  key="log_level">{lvl}</li>
-          <li className="logger" key="logger">{lgr}</li>
+      <div className={styles.message_row}>
+        <ul className={styles.message_row_ul}>
+          <li className={styles.time} key="time">{tm}</li>
+          <li className={styles.log_level + ' ' + styles[lvl]} key="log_level">{lvl}</li>
+          <li className={styles.logger} key="logger">{lgr}</li>
         </ul>
         {this.getLogMessage()}
       </div>
@@ -39,7 +46,7 @@ class LogMessage extends React.Component
       )
     }
 
-    return <p className="log_message">{msgText}</p>
+    return <p className={styles.log_message}>{msgText}</p>
   }
 
   getSqlLogMessageText(msg) {

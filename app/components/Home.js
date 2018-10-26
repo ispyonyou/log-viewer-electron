@@ -29,15 +29,42 @@ class Home extends Component {
       chosenFileComponent = <h1>{this.props.chosenFilePath}</h1>
     }
 
+    const isFileChosen = (this.props.chosenFilePath && this.props.chosenFilePath !== "");
+
+    let headerComponent = null;
+    if (!isFileChosen) {
+      headerComponent = ( 
+        <div className="chooseFileHeaderFrame" 
+             onDrop={this.onDrop}
+             onDragOver={this.onDragOver} >
+          <p>Выберите файл</p>
+        </div>
+      );
+    }
+    else {
+      headerComponent = ( 
+        <div className="chosenFileHeaderFrame" 
+             onDrop={this.onDrop}
+             onDragOver={this.onDragOver} >
+          <p>{this.props.chosenFilePath}</p>
+        </div>
+      );
+    }
+
     console.log("render  -", this.props.chosenFilePath)
 
     return (
-      <div onDrop={this.onDrop}
-           onDragOver={this.onDragOver} >
-        <h1>Выберите файл</h1>
-        {chosenFileComponent}
-        <div className="messagesList">
-          <PaginatedLogMessagesList />
+      <div>
+        <div className="headerPlaceHolder">
+          <div className="header">
+            {headerComponent}
+          </div>
+        </div>
+
+        <div className="main">
+            <div className="messagesListFrame">
+              <PaginatedLogMessagesList />
+            </div>
         </div>
       </div>
     );
