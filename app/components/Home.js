@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
 import styles from './Home.css';
 import {ipcRenderer} from 'electron';
+import PaginatedLogMessagesList from './PaginatedLogMessagesList'
 
 class Home extends Component {
   onDragOver = (e) => {
@@ -35,6 +36,9 @@ class Home extends Component {
            onDragOver={this.onDragOver} >
         <h1>Выберите файл</h1>
         {chosenFileComponent}
+        <div className="messagesList">
+          <PaginatedLogMessagesList />
+        </div>
       </div>
     );
   }

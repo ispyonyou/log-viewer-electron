@@ -111,3 +111,8 @@ ipcMain.on('some-file-dropped', (event, arg) => {
 
   event.sender.send('new-log-file-was-loaded', filePath)
 })
+
+ipcMain.on('get-log-messages', (event, arg) => {
+  const logMessages = allLogMessages.slice(arg.startIndex, arg.size);
+  event.sender.send('new-log-messages', logMessages);
+})
