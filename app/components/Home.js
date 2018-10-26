@@ -1,20 +1,49 @@
 // @flow
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
 import styles from './Home.css';
+import {ipcRenderer} from 'electron';
 
-type Props = {};
+class Home extends Component {
+  onDragOver = (e) => {
+    e.preventDefault();
+  }
 
-export default class Home extends Component<Props> {
-  props: Props;
+  onDrop = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    console.log("onDrop");
+
+    for (let f of e.dataTransfer.files) {
+      ipcRenderer.send('some-file-dropped', f.path)
+    }
+  }
 
   render() {
+    let chosenFileComponent = null;
+    if (this.props.chosenFilePath) {
+      chosenFileComponent = <h1>{this.props.chosenFilePath}</h1>
+    }
+
+    console.log("render  -", this.props.chosenFilePath)
+
     return (
-      <div className={styles.container} data-tid="container">
-        <h2>Home</h2>
-        <Link to={routes.COUNTER}>to Counter</Link>
+      <div onDrop={this.onDrop}
+           onDragOver={this.onDragOver} >
+        <h1>Выберите файл</h1>
+        {chosenFileComponent}
       </div>
     );
   }
 }
+
+export default connect( (state) => {
+  console.log('from mapDispatchToProps - ', state.chosenFile.filePath);
+  return {
+    'chosenFilePath': state.chosenFile.filePath
+  }
+}, {
+})(Home)

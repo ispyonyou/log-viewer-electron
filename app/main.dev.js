@@ -10,8 +10,10 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import MenuBuilder from './menu';
+import fs from 'fs'
+import iconvlite from 'iconv-lite'
 
 let mainWindow = null;
 
@@ -89,3 +91,23 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 });
+
+let allLogMessages = [];
+
+ipcMain.on('some-file-dropped', (event, arg) => {
+  console.log("in 'some-file-dropped' handler привет");
+  console.log('---', arg);
+
+  const filePath = arg;
+
+  const buffer = fs.readFileSync(filePath);
+  const str = iconvlite.decode(buffer, 'win1251');
+
+  let jsonStr = "[" + str;
+  jsonStr = jsonStr.substr(0, jsonStr.length-1) + "]";
+
+
+  allLogMessages = JSON.parse(jsonStr);
+
+  event.sender.send('new-log-file-was-loaded', filePath)
+})

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
+import {ipcRenderer} from 'electron';
 import './app.global.css';
 
 const store = configureStore();
@@ -25,3 +26,7 @@ if (module.hot) {
     );
   });
 }
+
+ipcRenderer.on( 'new-log-file-was-loaded', (event, arg) => {
+  store.dispatch({ type: 'CHANGE_FILE', payload: { filePath: arg } });
+} )
