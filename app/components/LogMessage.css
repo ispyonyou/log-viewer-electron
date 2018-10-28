@@ -51,8 +51,14 @@
   color: #598bfe;
 }
 
+.message_row_ul .DEBUG {
+  background-color: rgb(250, 237, 202);
+  color: rgb(241, 190, 32);
+}
+
 .message_row_ul .ERROR {
-  background-color: rgba(199, 63, 21, 0.623);
+  background-color: rgb(253, 204, 208);
+  color: rgb(255, 95, 104);
 }
 
 .message_row_ul {
