@@ -1,0 +1,34 @@
+.filter {
+  display: block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.filter .container {
+  display: flex;
+}
+
+.filter .container > div {
+  flex: 1;
+}
+
+.filter .container > div:nth-of-type(1n+2) {
+  margin-left: 20px;
+}
+
+.filter select {
+  display: block;
+  width: 100%;
+}
+
+.filter option {
+  height: 2.5em;
+}
+
+.filter .label {
+  width: 8em;
+}
+
+.filter .close_btn {
+  float: right;
+}
