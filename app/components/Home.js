@@ -23,6 +23,10 @@ class Home extends Component {
     }
   }
 
+  handleShowFilters = () => {
+    ipcRenderer.send('show-filter', {});
+  }
+
   render() {
     let chosenFileComponent = null;
     if (this.props.chosenFilePath) {
@@ -51,12 +55,22 @@ class Home extends Component {
       );
     }
 
+    let showFlitersLink = null;
+//    if (!isFileChosen) {
+      showFlitersLink = (
+        <div className="navFliters">
+          <p onClick={this.handleShowFilters} >Фильтры и настройки</p>
+        </div>
+      );
+//    }
+
     console.log("render  -", this.props.chosenFilePath)
 
     return (
       <div>
         <div className="headerPlaceHolder">
           <div className="header">
+            {showFlitersLink}
             {headerComponent}
           </div>
         </div>
@@ -76,5 +90,5 @@ export default connect( (state) => {
   return {
     'chosenFilePath': state.chosenFile.filePath
   }
-}, {
+      }, {
 })(Home)

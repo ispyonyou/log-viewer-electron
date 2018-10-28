@@ -100,7 +100,7 @@ body {
 .chooseFileHeaderFrame {
   height: 150px;
   line-height: 150px;
-  margin: 75px 25px 0 25px;
+  margin: 25px 25px 0 25px;
   background-color: white;
   border-style: dashed;
   border-color: #9098aa;
@@ -112,7 +112,7 @@ body {
   height: 108px; /* 110px - border */
 
 /*  line-height: 150px; */
-  margin: 75px 25px 0 25px;
+  margin: 25px 25px 0 25px;
   background-color: white;
 
 /*  border-style: dashed; */
@@ -127,6 +127,20 @@ body {
   display: inline-block;
   vertical-align: middle;
   color: #8a93a5;
+}
+
+.navFliters {
+  margin: 25px 25px 25px 30px;
+  height: 25px;
+}
+
+.navFliters p {
+  color: white;
+  text-decoration: underline;
+}
+
+.navFliters p:hover {
+  text-decoration: none;
 }
 
 .main {

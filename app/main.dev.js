@@ -94,6 +94,13 @@ app.on('ready', async () => {
 
 let allLogMessages = [];
 
+const getAvLogLevels = () => {
+  var logLevelsSet = new Set();
+  allLogMessages.forEach( (msg) => {logLevelsSet.add(msg.lvl); });
+
+  return [...logLevelsSet];
+}
+
 ipcMain.on('some-file-dropped', (event, arg) => {
   console.log("in 'some-file-dropped' handler привет");
   console.log('---', arg);
@@ -110,6 +117,25 @@ ipcMain.on('some-file-dropped', (event, arg) => {
   allLogMessages = JSON.parse(jsonStr);
 
   event.sender.send('new-log-file-was-loaded', filePath)
+})
+
+ipcMain.on('show-filter', (event, arg) => {
+
+  let filterWindow = new BrowserWindow({
+    show: false,
+    width: 800,
+    height: 600,
+    parent: mainWindow
+  });
+
+  filterWindow.once('ready-to-show', () => {
+    filterWindow.webContents.send('set-av_log_levels', getAvLogLevels()) ;
+    filterWindow.show()
+  })
+
+
+  filterWindow.on('close', () => { filterWindow = null });
+  filterWindow.loadURL(`file://${__dirname}/app.html#/filter`);
 })
 
 ipcMain.on('get-log-messages', (event, arg) => {

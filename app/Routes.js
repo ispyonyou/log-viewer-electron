@@ -5,12 +5,14 @@ import routes from './constants/routes';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import Home from './components/Home';
+import Filter from './components/Filter';
 import CounterPage from './containers/CounterPage';
 
 export default () => (
   <App>
     <Switch>
       <Route path={routes.COUNTER} component={CounterPage} />
+      <Route path="/filter" component={Filter} />
       <Route path={routes.HOME} component={Home} />
     </Switch>
   </App>

@@ -36,3 +36,8 @@ ipcRenderer.on( 'new-log-file-was-loaded', (event, arg) => {
 ipcRenderer.on( 'new-log-messages', (event, arg) => {
   store.dispatch({ type: 'SET_LOG_MESSAGES', payload: { logMessages: arg } });
 } )
+
+ipcRenderer.on('set-av_log_levels', (event, arg) => {
+  store.dispatch({type: 'SET_AV_LOG_LEVELS', payload:{ avLogLevels: arg } });
+  console.log('in set-av_log_levels' )
+})
