@@ -93,12 +93,20 @@ app.on('ready', async () => {
 });
 
 let allLogMessages = [];
+let filteredLogMessages = [];
 
 const getAvLogLevels = () => {
   var logLevelsSet = new Set();
   allLogMessages.forEach( (msg) => {logLevelsSet.add(msg.lvl); });
 
   return [...logLevelsSet];
+}
+
+const getAvLoggers = () => {
+  var res = new Set();
+  allLogMessages.forEach( (msg) => {res.add(msg.lgr); });
+
+  return [...res];
 }
 
 ipcMain.on('some-file-dropped', (event, arg) => {
@@ -115,9 +123,10 @@ ipcMain.on('some-file-dropped', (event, arg) => {
 
 
   allLogMessages = JSON.parse(jsonStr);
+  filteredLogMessages = allLogMessages;
 
   event.sender.send('new-log-file-was-loaded', filePath)
-  event.sender.send('filtered-messages-changed', {messagesCount: allLogMessages.length})
+  event.sender.send('filtered-messages-changed', {messagesCount: filteredLogMessages.length})
 })
 
 ipcMain.on('show-filter', (event, arg) => {
@@ -131,15 +140,48 @@ ipcMain.on('show-filter', (event, arg) => {
 
   filterWindow.once('ready-to-show', () => {
     filterWindow.webContents.send('set-av_log_levels', getAvLogLevels()) ;
+    filterWindow.webContents.send('set-av_loggers', getAvLoggers()) ;
     filterWindow.show()
   })
-
 
   filterWindow.on('close', () => { filterWindow = null });
   filterWindow.loadURL(`file://${__dirname}/app.html#/filter`);
 })
 
 ipcMain.on('get-log-messages', (event, arg) => {
-  const logMessages = allLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
+  console.log('get-log-messages');
+  const logMessages = filteredLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
   event.sender.send('new-log-messages', logMessages);
+})
+
+function filterLogMessages(filter, defaultLogMessages)
+{
+  var newLogMessages = defaultLogMessages
+
+  if (filter.logLevels.length) {
+    newLogMessages = newLogMessages.filter( logMessage => {
+      return filter.logLevels.some(level => level === logMessage.lvl)
+    } );
+  }
+
+  if (filter.loggers.length) {
+    newLogMessages = newLogMessages.filter( logMessage => {
+      return filter.loggers.some(logger => logger === logMessage.lgr)
+    } );
+  }
+
+  return newLogMessages;
+}
+
+ipcMain.on('filter-changed', (event, arg) => {
+  console.log('in filter-changed');
+  console.log(arg);
+  
+  filteredLogMessages = filterLogMessages(arg, allLogMessages)
+
+  mainWindow.webContents.send('filtered-messages-changed', {messagesCount: filteredLogMessages.length})
+
+  
+//  const logMessages = allLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
+//  event.sender.send('new-log-messages', logMessages);
 })

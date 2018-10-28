@@ -5,6 +5,8 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import {ipcRenderer} from 'electron';
 import {changeFilteredMessages} from './actions/logMessages'
+import {setAvLogLevels, setAvLogLoggers} from './actions/filter'
+
 
 import './app.global.css';
 
@@ -37,13 +39,18 @@ ipcRenderer.on( 'new-log-file-was-loaded', (event, arg) => {
 
 ipcRenderer.on( 'new-log-messages', (event, arg) => {
   store.dispatch({ type: 'SET_LOG_MESSAGES', payload: { logMessages: arg } });
+  console.log( 'new messages received - ',  arg );
 } )
 
 ipcRenderer.on('filtered-messages-changed', (event, arg) => {
   store.dispatch(changeFilteredMessages(arg.messagesCount))
+  ipcRenderer.send('get-log-messages', {startIndex: 0, size: 100});
 } )
 
 ipcRenderer.on('set-av_log_levels', (event, arg) => {
-  store.dispatch({type: 'SET_AV_LOG_LEVELS', payload:{ avLogLevels: arg } });
-  console.log('in set-av_log_levels' )
+  store.dispatch(setAvLogLevels(arg));
+})
+
+ipcRenderer.on('set-av_loggers', (event, arg) => {
+  store.dispatch(setAvLogLoggers(arg));
 })

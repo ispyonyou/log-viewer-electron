@@ -4,7 +4,7 @@
 } from '../constants'
 */
 
-import {CHANGE_FLT_LOG_LEVELS, CHANGE_FLT_LOGGERS} from '../actions/filter';
+import {CHANGE_FLT_LOG_LEVELS, CHANGE_FLT_LOGGERS, SET_AV_LOG_LEVELS, SET_AV_LOGGERS} from '../actions/filter';
 
 const defaultState = {
   logLevels: [],
@@ -16,17 +16,24 @@ const defaultState = {
 export default (state = defaultState, action) => {
   const {type, payload} = action;
   switch (type) {
-    case CHANGE_FLT_LOG_LEVELS: return {
-      ...state, logLevels: payload.logLevels
-    }
-    case CHANGE_FLT_LOGGERS: return {
-      ...state, loggers: payload.loggers
-    }
-    case 'SET_AV_LOG_LEVELS':
+    case CHANGE_FLT_LOG_LEVELS:
+      return {
+        ...state, logLevels: payload.logLevels
+      }
+    case CHANGE_FLT_LOGGERS:
+      return {
+        ...state, loggers: payload.loggers
+      }
+    case SET_AV_LOG_LEVELS:
       return {
         ...state, avLogLevels: payload.avLogLevels
       }
-    
-    default: return state;
+    case SET_AV_LOGGERS:
+      return {
+        ...state, avLoggers: payload.avLoggers
+      }
+  
+    default:
+      return state;
   }
 }

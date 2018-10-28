@@ -17,6 +17,7 @@ class Filter extends React.Component
 
   handleLevelsChanged = (selectedOptions) => {
     this.props.changeFltLogLevels(selectedOptions)
+//    ipcRenderer.send('get-log-messages', {startIndex: from, size: this.props.messagesPerPage});
 //    this.props.filterLogMessages()
   }
 
