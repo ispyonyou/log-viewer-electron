@@ -6,7 +6,7 @@ import { configureStore, history } from './store/configureStore';
 import {ipcRenderer} from 'electron';
 import {changeFilteredMessages} from './actions/logMessages'
 import {setAvLogLevels, setAvLogLoggers} from './actions/filter'
-
+import {setSettings} from './actions/settings'
 
 import './app.global.css';
 
@@ -45,6 +45,10 @@ ipcRenderer.on( 'new-log-messages', (event, arg) => {
 ipcRenderer.on('filtered-messages-changed', (event, arg) => {
   store.dispatch(changeFilteredMessages(arg.messagesCount))
   ipcRenderer.send('get-log-messages', {startIndex: 0, size: 100});
+} )
+
+ipcRenderer.on('set-new-settings', (event, arg) => {
+  store.dispatch(setSettings(arg))
 } )
 
 ipcRenderer.on('set-av_log_levels', (event, arg) => {

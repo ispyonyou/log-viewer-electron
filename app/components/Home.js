@@ -29,6 +29,10 @@ class Home extends Component {
     ipcRenderer.send('show-filter', {});
   }
 
+  handleShowSettings = () => {
+    ipcRenderer.send('show-settings', {});
+  }
+
   handlePageClick = (data) => {
     const from = data.selected * this.props.messagesPerPage
     ipcRenderer.send('get-log-messages', {startIndex: from, size: this.props.messagesPerPage});
@@ -67,7 +71,8 @@ class Home extends Component {
 //    if (!isFileChosen) {
       showFlitersLink = (
         <div className="navFliters">
-          <p onClick={this.handleShowFilters} >Фильтры и настройки</p>
+          <p onClick={this.handleShowFilters} >Фильтры</p>
+          <p onClick={this.handleShowSettings} >Настройки</p>
         </div>
       );
 //    }

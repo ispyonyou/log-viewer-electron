@@ -130,7 +130,6 @@ ipcMain.on('some-file-dropped', (event, arg) => {
 })
 
 ipcMain.on('show-filter', (event, arg) => {
-
   let filterWindow = new BrowserWindow({
     show: false,
     width: 800,
@@ -147,6 +146,25 @@ ipcMain.on('show-filter', (event, arg) => {
   filterWindow.on('close', () => { filterWindow = null });
   filterWindow.loadURL(`file://${__dirname}/app.html#/filter`);
 })
+
+ipcMain.on('show-settings', (event, arg) => {
+  let settingsWindow = new BrowserWindow({
+    show: false,
+    width: 600,
+    height: 400,
+    parent: mainWindow
+  });
+
+  settingsWindow.once('ready-to-show', () => {
+//    filterWindow.webContents.send('set-av_log_levels', getAvLogLevels()) ;
+//    filterWindow.webContents.send('set-av_loggers', getAvLoggers()) ;
+    settingsWindow.show()
+  })
+
+  settingsWindow.on('close', () => { settingsWindow = null });
+  settingsWindow.loadURL(`file://${__dirname}/app.html#/settings`);
+})
+
 
 ipcMain.on('get-log-messages', (event, arg) => {
   console.log('get-log-messages');
@@ -174,14 +192,10 @@ function filterLogMessages(filter, defaultLogMessages)
 }
 
 ipcMain.on('filter-changed', (event, arg) => {
-  console.log('in filter-changed');
-  console.log(arg);
-  
   filteredLogMessages = filterLogMessages(arg, allLogMessages)
-
   mainWindow.webContents.send('filtered-messages-changed', {messagesCount: filteredLogMessages.length})
+})
 
-  
-//  const logMessages = allLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
-//  event.sender.send('new-log-messages', logMessages);
+ipcMain.on('settings-changed', (event, arg) => {
+  mainWindow.webContents.send('set-new-settings', arg)
 })

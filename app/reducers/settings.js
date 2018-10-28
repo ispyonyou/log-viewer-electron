@@ -1,6 +1,6 @@
 import {CHANGE_SETTINGS_FORMAT_SQL, CHANGE_SETTINGS_HIGHLIGHT_SQL,
-  CHANGE_MESSAGES_PER_PAGE 
-} from '../constants'
+  CHANGE_MESSAGES_PER_PAGE, SET_NEW_SETTINGS 
+} from '../actions/settings'
 
 const defaultState = {
   formatSql: true,
@@ -9,18 +9,24 @@ const defaultState = {
 }
 
 export default (state=defaultState, action) => {
-  const { type } = action;
+  const { type, payload } = action;
   switch( type )
   {
-    case CHANGE_SETTINGS_FORMAT_SQL: return {
-      ...state, formatSql: action.payload.formatSql
-    }
-    case CHANGE_SETTINGS_HIGHLIGHT_SQL: return {
-      ...state, highlightSql: action.payload.highlightSql
-    }
-    case CHANGE_MESSAGES_PER_PAGE: return {
-      ...state, messagesPerPage: action.payload.messagesPerPage
-    }
-    default: return state;
+    case CHANGE_SETTINGS_FORMAT_SQL:
+      return {
+        ...state, formatSql: payload.formatSql
+      }
+    case CHANGE_SETTINGS_HIGHLIGHT_SQL: 
+      return {
+        ...state, highlightSql: payload.highlightSql
+      }
+    case CHANGE_MESSAGES_PER_PAGE:
+      return {
+        ...state, messagesPerPage: payload.messagesPerPage
+      }
+    case SET_NEW_SETTINGS:
+      return action.payload;
+    default: 
+      return state;
   }
 }
