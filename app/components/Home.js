@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
-import styles from './Home.css';
 import {ipcRenderer} from 'electron';
-import PaginatedLogMessagesList from './PaginatedLogMessagesList'
+import LogMessagesList from './LogMessagesList'
+import ReactPaginate from 'react-paginate'
+
+import styles from './Home.css';
 
 class Home extends Component {
   onDragOver = (e) => {
@@ -25,6 +27,11 @@ class Home extends Component {
 
   handleShowFilters = () => {
     ipcRenderer.send('show-filter', {});
+  }
+
+  handlePageClick = (data) => {
+    const from = data.selected * this.props.messagesPerPage
+    ipcRenderer.send('get-log-messages', {startIndex: from, size: this.props.messagesPerPage});
   }
 
   render() {
@@ -51,6 +58,7 @@ class Home extends Component {
              onDrop={this.onDrop}
              onDragOver={this.onDragOver} >
           <p>{this.props.chosenFilePath}</p>
+          {this.renderPaginate()}
         </div>
       );
     }
@@ -77,18 +85,32 @@ class Home extends Component {
 
         <div className="main">
             <div className="messagesListFrame">
-              <PaginatedLogMessagesList />
+              <LogMessagesList />
             </div>
         </div>
       </div>
     );
   }
+
+  renderPaginate() {
+    const pagesCount = Math.ceil(this.props.filteredMessagesCount / this.props.messagesPerPage);
+
+    console.log('---', styles.pagination)
+
+    return (
+      <ReactPaginate containerClassName={styles.pagination}
+                     activeClassName={styles.activePage}
+                     pageCount={pagesCount}
+                     onPageChange={this.handlePageClick}/>
+    );
+  }
 }
 
 export default connect( (state) => {
-  console.log('from mapDispatchToProps - ', state.chosenFile.filePath);
   return {
-    'chosenFilePath': state.chosenFile.filePath
+    chosenFilePath: state.chosenFile.filePath,
+    filteredMessagesCount: state.logMessages.filteredMessagesCount,
+    messagesPerPage: state.settings.messagesPerPage
   }
       }, {
 })(Home)

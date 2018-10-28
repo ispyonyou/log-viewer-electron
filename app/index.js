@@ -4,6 +4,8 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import {ipcRenderer} from 'electron';
+import {changeFilteredMessages} from './actions/logMessages'
+
 import './app.global.css';
 
 const store = configureStore();
@@ -35,6 +37,10 @@ ipcRenderer.on( 'new-log-file-was-loaded', (event, arg) => {
 
 ipcRenderer.on( 'new-log-messages', (event, arg) => {
   store.dispatch({ type: 'SET_LOG_MESSAGES', payload: { logMessages: arg } });
+} )
+
+ipcRenderer.on('filtered-messages-changed', (event, arg) => {
+  store.dispatch(changeFilteredMessages(arg.messagesCount))
 } )
 
 ipcRenderer.on('set-av_log_levels', (event, arg) => {

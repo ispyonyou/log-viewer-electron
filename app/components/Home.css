@@ -14,3 +14,23 @@
 }
 */
 
+.pagination {
+  margin-top: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+}
+
+.pagination li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.activePage {
+  color: blue;
+}
+
+.pagination .selected {
+  border: 1px dashed #999;
+}

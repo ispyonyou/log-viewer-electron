@@ -117,6 +117,7 @@ ipcMain.on('some-file-dropped', (event, arg) => {
   allLogMessages = JSON.parse(jsonStr);
 
   event.sender.send('new-log-file-was-loaded', filePath)
+  event.sender.send('filtered-messages-changed', {messagesCount: allLogMessages.length})
 })
 
 ipcMain.on('show-filter', (event, arg) => {
@@ -139,6 +140,6 @@ ipcMain.on('show-filter', (event, arg) => {
 })
 
 ipcMain.on('get-log-messages', (event, arg) => {
-  const logMessages = allLogMessages.slice(arg.startIndex, arg.size);
+  const logMessages = allLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
   event.sender.send('new-log-messages', logMessages);
 })

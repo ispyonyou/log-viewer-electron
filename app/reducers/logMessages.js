@@ -2,14 +2,17 @@
 //  FINISH
 //} from '../constants'
 
+import {SET_FILTERED_LOG_MESSAGES} from '../actions/logMessages';
+
 const defaultState = {
 //  defaultLogMessages: [],
   logMessages: [],
+  filteredMessagesCount: 0,
   filtering: false,
 }
 
 export default (state = defaultState, action) => {
-  const {type} = action;
+  const {type, payload} = action;
   switch (type) {
 //    case CHANGE_DEFAULT_LOG_MESSAGES: return {
 //      defaultLogMessages: action.payload.defaultLogMessages,
@@ -27,6 +30,10 @@ export default (state = defaultState, action) => {
 //      logMessages: action.filteredLogMessages,
 //      filtering: false
 //    }
+    case SET_FILTERED_LOG_MESSAGES:
+      return {
+        ...state, filteredMessagesCount: payload.messagesCount
+      }
     default: 
       return state;
   }
