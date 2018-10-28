@@ -14,6 +14,7 @@ export function changeFltLogLevels(logLevels) {
 export function changeFltLoggers(loggers) {
   return {
     type: CHANGE_FLT_LOGGERS,
+    filterLogMessages: true,
     payload: { loggers }
   }
 }

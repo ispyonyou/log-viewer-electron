@@ -5,8 +5,7 @@ import SimpleMultiSelect from './SimpleMultiSelect'
 
 import styles from './Filter.css'
 
-import {/*closeFilter, filterLogMessages, */changeFltLogLevels, changeFltLoggers
-} from '../actions/filter.js'
+import {changeFltLogLevels, changeFltLoggers} from '../actions/filter.js'
 
 
 class Filter extends React.Component
@@ -23,17 +22,17 @@ class Filter extends React.Component
 
   handleLoggersChanged = (selectedOptions) => {
     this.props.changeFltLoggers(selectedOptions)
-    this.props.filterLogMessages()
+//    this.props.filterLogMessages()
   }
 
-  handleIncludeLevelsChanged = (selectedOptions) => { 
-    this.props.changeFltIncludeLogLevevls(this.getSelectedValues(selectedOptions))
-    this.props.filterLogMessages()
-  }
+//  handleIncludeLevelsChanged = (selectedOptions) => { 
+//    this.props.changeFltIncludeLogLevevls(this.getSelectedValues(selectedOptions))
+//    this.props.filterLogMessages()
+//  }
 
-  getSelectedValues(selectedOptions) {
-    return selectedOptions.map(option => option.value).sort();
-  }
+//  getSelectedValues(selectedOptions) {
+//    return selectedOptions.map(option => option.value).sort();
+//  }
 
   render() {
     const {avLogLevels, avLoggers, logLevels, loggers} = this.props;
@@ -72,5 +71,5 @@ export default connect((state) => ({
   loggers: state.filter.loggers,
   avLogLevels: state.filter.avLogLevels,
   avLoggers: state.filter.avLoggers,
-}), {/*closeFilter, filterLogMessages, */changeFltLogLevels/*, changeFltLoggers*/
+}), {changeFltLogLevels, changeFltLoggers
 })(Filter)
