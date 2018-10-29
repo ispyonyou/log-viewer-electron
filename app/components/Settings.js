@@ -17,7 +17,7 @@ class Settings extends React.Component
   }
 
   handleMessagesPerPageChanged = (event) => {
-    this.props.changeMessagesPerPage(event.target.value);
+    this.props.changeMessagesPerPage(parseInt(event.target.value));
   }
 
 //  getSettingsData() {

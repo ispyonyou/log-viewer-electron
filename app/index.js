@@ -48,6 +48,7 @@ ipcRenderer.on('filtered-messages-changed', (event, arg) => {
 } )
 
 ipcRenderer.on('set-new-settings', (event, arg) => {
+  console.log('in set-new-settings', arg);
   store.dispatch(setSettings(arg))
 } )
 

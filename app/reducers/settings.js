@@ -25,7 +25,7 @@ export default (state=defaultState, action) => {
         ...state, messagesPerPage: payload.messagesPerPage
       }
     case SET_NEW_SETTINGS:
-      return action.payload;
+      return action.payload.settings;
     default: 
       return state;
   }

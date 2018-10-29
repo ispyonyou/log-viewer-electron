@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
 import {ipcRenderer} from 'electron';
-import LogMessagesList from './LogMessagesList'
-import ReactPaginate from 'react-paginate'
+import LogMessagesList from './LogMessagesList';
+import ReactPaginate from 'react-paginate';
+import {setSelectedMessagesPage} from '../actions/logMessages';
 
 import styles from './Home.css';
 
@@ -34,8 +35,9 @@ class Home extends Component {
   }
 
   handlePageClick = (data) => {
-    const from = data.selected * this.props.messagesPerPage
-    ipcRenderer.send('get-log-messages', {startIndex: from, size: this.props.messagesPerPage});
+    this.props.setSelectedMessagesPage(data.selected);
+//    const from = data.selected * this.props.messagesPerPage
+//    ipcRenderer.send('get-log-messages', {startIndex: from, size: this.props.messagesPerPage});
   }
 
   render() {
@@ -67,9 +69,9 @@ class Home extends Component {
       );
     }
 
-    let showFlitersLink = null;
+    let showFiltersLink = null;
 //    if (!isFileChosen) {
-      showFlitersLink = (
+      showFiltersLink = (
         <div className="navFliters">
           <p onClick={this.handleShowFilters} >Фильтры</p>
           <p onClick={this.handleShowSettings} >Настройки</p>
@@ -83,7 +85,7 @@ class Home extends Component {
       <div>
         <div className="headerPlaceHolder">
           <div className="header">
-            {showFlitersLink}
+            {showFiltersLink}
             {headerComponent}
           </div>
         </div>
@@ -100,7 +102,7 @@ class Home extends Component {
   renderPaginate() {
     const pagesCount = Math.ceil(this.props.filteredMessagesCount / this.props.messagesPerPage);
 
-    console.log('---', styles.pagination)
+    console.log('--- renderPaginate ---', this.props.filteredMessagesCount, this.props.messagesPerPage);
 
     return (
       <ReactPaginate containerClassName={styles.pagination}
@@ -111,11 +113,16 @@ class Home extends Component {
   }
 }
 
-export default connect( (state) => {
-  return {
-    chosenFilePath: state.chosenFile.filePath,
-    filteredMessagesCount: state.logMessages.filteredMessagesCount,
-    messagesPerPage: state.settings.messagesPerPage
-  }
-      }, {
+//export default connect( (state) => ({
+//    chosenFilePath: state.chosenFile.filePath,
+//    filteredMessagesCount: state.logMessages.filteredMessagesCount,
+//    messagesPerPage: state.settings.messagesPerPage
+//}), { setSelectedMessagesPage
+//})(Home)
+
+export default connect((state) => ({
+  chosenFilePath: state.chosenFile.filePath,
+  filteredMessagesCount: state.logMessages.filteredMessagesCount,
+  messagesPerPage: state.settings.messagesPerPage,
+}), {setSelectedMessagesPage
 })(Home)

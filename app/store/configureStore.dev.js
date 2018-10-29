@@ -6,7 +6,9 @@ import { createLogger } from 'redux-logger';
 import createRootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 import type { counterStateType } from '../reducers/types';
-import filterMessages from '../middlewares/filterMessages';
+import filterMessages from '../middleware/filterMessages';
+import changeSettings from '../middleware/changeSettings';
+import loadMessages from '../middleware/loadMessages';
 
 const history = createHashHistory();
 
@@ -19,6 +21,11 @@ const configureStore = (initialState?: counterStateType) => {
 
   // Filter Middleware
   middleware.push(filterMessages);
+
+  // Settings Middleware
+  middleware.push(changeSettings);
+
+  middleware.push(loadMessages);
 
   // Thunk Middleware
   middleware.push(thunk);

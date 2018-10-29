@@ -30,6 +30,7 @@ export function changeMessagesPerPage(messagesPerPage) {
 export function setSettings(newSettings) {
   return {
     type: SET_NEW_SETTINGS,
+    reloadMessages: true,
     payload: { settings: newSettings }
   }
 }

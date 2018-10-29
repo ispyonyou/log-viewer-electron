@@ -167,7 +167,7 @@ ipcMain.on('show-settings', (event, arg) => {
 
 
 ipcMain.on('get-log-messages', (event, arg) => {
-  console.log('get-log-messages');
+  console.log('-- in get-log-messages --', arg);
   const logMessages = filteredLogMessages.slice(arg.startIndex, arg.startIndex + arg.size);
   event.sender.send('new-log-messages', logMessages);
 })
@@ -197,5 +197,6 @@ ipcMain.on('filter-changed', (event, arg) => {
 })
 
 ipcMain.on('settings-changed', (event, arg) => {
-  mainWindow.webContents.send('set-new-settings', arg)
+  console.log('in settings-changed', arg);
+  mainWindow.webContents.send('set-new-settings', arg);
 })
